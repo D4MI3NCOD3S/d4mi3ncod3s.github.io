@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vision Pipeline — 이원복</title>
+<meta name="description" content="외부 식별 API에 의존하던 알약 이미지 식별을 Vision LLM + 규칙 보정 + CLIP · FAISS 인프로세스 파이프라인으로 단독 내재화한 케이스 스터디.">
+<meta property="og:title" content="Vision Pipeline — 이원복">
+<meta property="og:description" content="외부 식별 API에 의존하던 알약 이미지 식별을 Vision LLM + 규칙 보정 + CLIP · FAISS 인프로세스 파이프라인으로 단독 내재화한 케이스 스터디.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232f5bd3'/><text x='16' y='22' font-size='16' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'>WB</text></svg>">
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html">이원복</a>
+    <div class="links">
+      <a class="back" href="index.html">← Overview</a>
+      <a href="legacy-modernization.html">레거시 전면 리뉴얼</a><a href="ai-search-rag.html">AI Search · RAG</a><a href="vision-pipeline.html" aria-current="page">Vision Pipeline</a><a href="azure-migration.html">Azure Migration</a><a href="force-multiplier.html">Force Multiplier</a>
+      <a href="experience.html">Experience</a>
+    </div>
+    <button class="theme-btn" id="themeBtn" aria-label="다크/라이트 모드 전환">◐</button>
+  </div>
+</nav>
+<main>
+<section class="wrap case detail" id="case-vision" aria-labelledby="c3">
+  <div class="case-head">
+    <span class="no">CASE 03</span>
+    <h1 class="case-title" id="c3">알약 이미지 식별 Vision Pipeline</h1>
+    <div class="case-meta"><span><b>기간</b> 2026.03 – 운영 중</span><span><b>역할</b> 단독 설계 · 구현 — 처음부터 끝까지 혼자 만든 시스템</span></div>
+    <div class="chips"><span>Gemini Vision</span><span>CLIP</span><span>FAISS</span><span>Redis job</span><span>FastAPI BackgroundTasks</span></div>
+  </div>
+  <nav class="subnav" aria-label="이 페이지"><a href="#problem">Problem</a><a href="#before-after">Before / After</a><a href="#architecture">Pipeline</a><a href="#decisions">Trade-off</a><a href="#contribution">Contribution · Metrics</a><a href="#related">Related</a></nav>
+
+  <div id="problem" class="pa">
+    <div><h4>Problem</h4><p>각인 · 모양 · 색상으로 알약을 찾는 기능이 외부 식별 API에 의존했습니다. 비용 · 지연 · 장애가 외부에 묶여 있었고, 정확도를 우리가 개선할 방법이 없었습니다.</p></div>
+    <div><h4>Approach</h4><p>Vision LLM 단독으로는 각인 오독이 잦아, 규칙 기반 보정을 LLM 앞뒤에 배치했습니다. "10초"라는 지연 예산을 먼저 정하고 그 안에서 정확도를 최대화했습니다.</p></div>
+  </div>
+
+  <div id="before-after" class="ba" role="group" aria-label="Before After 비교">
+    <div class="side before">
+      <h4>BEFORE</h4>
+      <ul>
+        <li>외부 식별 API 호출</li>
+        <li>비용 · 지연 · 장애가 외부에 종속</li>
+        <li>단계별 튜닝 불가</li>
+        <li>품질 측정 수단 없음</li>
+      </ul>
+    </div>
+    <div class="via" aria-hidden="true"><span class="arr">→</span><span>내재화</span><span>지연 예산</span></div>
+    <div class="side after">
+      <h4>AFTER</h4>
+      <ul>
+        <li>인프로세스 Vision Pipeline</li>
+        <li>규칙 × LLM 결합 보정</li>
+        <li>10초 예산 · 병렬화 · 모델 라우팅</li>
+        <li>Top-K 평가 하네스 <small>CI 자동 실행</small></li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="architecture" class="diagram">
+    <p class="block-title">구조 · 이미지에서 후보까지</p>
+    <div class="flow">
+      <div class="node">이미지 업로드 <small>비동기 job</small></div>
+      <div class="down"></div>
+      <div class="node"><em>SEGMENTATION</em>복수 알약 분리</div>
+      <div class="down"></div>
+      <div class="node"><em>PREPROCESS</em>조명 · 각도 · 배경 정규화</div>
+      <div class="down"></div>
+      <div class="node key">Vision LLM 특징 추출<small>각인 · 모양 · 색상 · 제형</small></div>
+      <div class="down"></div>
+      <div class="node"><em>OCR CORRECTION</em>규칙 보정<small>혼동 문자 · 편집거리 · 색상/모양 정규화</small></div>
+      <div class="down"></div>
+      <div class="fan three">
+        <div class="node">식별정보 DB</div>
+        <div class="node">CLIP 임베딩</div>
+        <div class="node">FAISS 유사도</div>
+      </div>
+      <div class="down"></div>
+      <div class="node">다인자 스코어링 + 불일치 감점</div>
+      <div class="down"></div>
+      <div class="branch">
+        <div class="node guard">신뢰도 낮을 때만<small>Stage 2 Manifest 직접 매칭 / 2-Pass 시각 재검증</small></div>
+      </div>
+      <div class="down"></div>
+      <div class="node">후보 응답<small>매칭 경로 · 선택 근거 포함</small></div>
+    </div>
+  </div>
+
+  <p class="block-title">기술적 의사결정 · Trade-off</p>
+  <div id="decisions" class="decisions">
+    <div class="dec"><b>지연 예산을 먼저</b><p>정확도를 올릴수록 느려지므로 10초를 먼저 정하고 그 안에서 최적화. 약품별 병렬화, 조기 종료.</p></div>
+    <div class="dec"><b>mini / full 모델 라우팅</b><p>쉬운 건 mini, 애매한 건 full. <span class="vs">비용과 정확도를 동시에 관리</span></p></div>
+    <div class="dec"><b>재검증은 저신뢰에만</b><p>2-Pass 시각 재검증을 모든 요청에 걸지 않음.</p></div>
+    <div class="dec"><b>불일치 감점</b><p>각인은 맞지만 색상이 다른 후보는 점수를 깎아 오탐을 억제.</p></div>
+  </div>
+
+  <div id="contribution" class="contrib">
+    <div>
+      <p class="block-title">My Contribution</p>
+      <ul>
+        <li><b>전 구간 단독</b> — 파이프라인 설계부터 구현까지</li>
+        <li><b>도메인 보정</b> — 혼동 문자 사전, 정규화, 감점 스코어링</li>
+        <li><b>성능</b> — 병렬화, 모델 라우팅, 인덱스 추가, 비동기 처리</li>
+        <li><b>측정</b> — 평가셋, Top-K 하네스, 운영 대시보드, CI</li>
+        <li><b>피드백 루프</b> — 사용자 최종 선택을 랭킹 신호로 적재</li>
+        <li><b>연결</b> — Agentic RAG의 외형 식별 도구로 연동</li>
+      </ul>
+    </div>
+    <div class="nums">
+      <span class="grp">결과</span>
+      <div class="n"><b>~7,000줄</b><span>단독 구현</span></div>
+      <div class="n"><b>42</b><span>identify 커밋</span></div>
+      <div class="n"><b>10초</b><span>지연 예산 · 그 안에서 정확도 최대화</span></div>
+      <div class="n"><b>Top-K</b><span>평가 하네스 · CI 자동 실행</span></div>
+      <div class="n" style="grid-column:1/-1"><b>외부 API → 인프로세스</b><span>비용 · 지연 · 장애를 자체 통제, 단계별 튜닝 가능</span></div>
+      <span class="grp">선행 경험</span>
+      <div class="n" style="grid-column:1/-1"><b>1,001건</b><span>레거시 각인 매칭 실측 시뮬레이션 → <a href="experience.html#exp-imprint">관련 경험 보기</a></span></div>
+    </div>
+  </div>
+  <div class="related" id="related">
+    <p class="block-title">관련 경험</p>
+    <ul><li><a href="experience.html#exp-imprint">LLM 없이 알고리즘만으로 레거시 각인 매칭 재설계</a></li><li><a href="ai-search-rag.html">CASE 02 — Agentic RAG의 외형 식별 도구로 연결</a></li></ul>
+  </div>
+</section>
+
+<div class="wrap pager"><a class="prev" href="ai-search-rag.html"><span>이전</span>CASE 02 · AI Search · RAG</a><a class="next" href="azure-migration.html"><span>다음</span>CASE 04 · Azure Migration</a></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    이원복 · <a href="mailto:hwfrzy@gmail.com">hwfrzy@gmail.com</a> · <a href="https://github.com/D4MI3NCOD3S" target="_blank" rel="noopener">GitHub</a> · <a href="index.html">Overview</a><br>
+    수치는 사내 저장소 · 티켓 기록 실측값이고, 비공개 항목은 면접에서 설명드릴 수 있습니다.
+  </div>
+</footer>
+
+<script src="assets/main.js"></script>
+</body>
+</html>

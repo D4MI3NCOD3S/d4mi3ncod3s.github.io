@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Search · RAG — 이원복</title>
+<meta name="description" content="키워드 검색을 Hybrid Search + RAG로 바꾸고 골든셋 · LLM-judge · CI 회귀 평가로 품질을 관리한 케이스 스터디. 정확도 87.7 → 94.7%.">
+<meta property="og:title" content="AI Search · RAG — 이원복">
+<meta property="og:description" content="키워드 검색을 Hybrid Search + RAG로 바꾸고 골든셋 · LLM-judge · CI 회귀 평가로 품질을 관리한 케이스 스터디. 정확도 87.7 → 94.7%.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232f5bd3'/><text x='16' y='22' font-size='16' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'>WB</text></svg>">
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html">이원복</a>
+    <div class="links">
+      <a class="back" href="index.html">← Overview</a>
+      <a href="legacy-modernization.html">레거시 전면 리뉴얼</a><a href="ai-search-rag.html" aria-current="page">AI Search · RAG</a><a href="vision-pipeline.html">Vision Pipeline</a><a href="azure-migration.html">Azure Migration</a><a href="force-multiplier.html">Force Multiplier</a>
+      <a href="experience.html">Experience</a>
+    </div>
+    <button class="theme-btn" id="themeBtn" aria-label="다크/라이트 모드 전환">◐</button>
+  </div>
+</nav>
+<main>
+<section class="wrap case detail" id="case-rag" aria-labelledby="c2">
+  <div class="case-head">
+    <span class="no">CASE 02</span>
+    <h1 class="case-title" id="c2">Hybrid Search + RAG · AI 품질 평가 체계</h1>
+    <div class="case-meta"><span><b>기간</b> 2025.12 – 운영 중</span><span><b>역할</b> AI 백엔드 설계 · 구현 · 튜닝 주도</span></div>
+    <div class="chips"><span>pgvector · HNSW</span><span>pg_trgm</span><span>Azure OpenAI</span><span>Gemini</span><span>AWS Bedrock</span><span>Function Calling</span><span>LLM-as-Judge</span></div>
+  </div>
+  <nav class="subnav" aria-label="이 페이지"><a href="#problem">Problem</a><a href="#before-after">Before / After</a><a href="#architecture">Architecture</a><a href="#evaluation">Evaluation</a><a href="#decisions">Trade-off</a><a href="#contribution">Contribution · Metrics</a><a href="#related">Related</a></nav>
+
+  <div id="problem" class="pa">
+    <div><h4>Problem</h4><p>"임산부가 먹어도 되는 진통제" 같은 자연어 질의에 키워드 완전일치 검색은 속수무책이었습니다. 의약품 도메인에서 오답은 곧 위험이라 일반 LLM 챗봇을 그대로 붙일 수 없었습니다.</p></div>
+    <div><h4>Approach</h4><p>여러 소스를 가중 결합하는 하이브리드 검색 위에 RAG를 얹고, 답변은 검색 결과와 대조해 걸렀습니다. 튜닝은 하나 고치면 다른 데가 깨지기 때문에 품질 자체를 CI 회귀 테스트로 만들었습니다.</p></div>
+  </div>
+
+  <div id="before-after" class="ba" role="group" aria-label="Before After 비교">
+    <div class="side before">
+      <h4>BEFORE</h4>
+      <ul>
+        <li>키워드 완전일치 검색</li>
+        <li>자연어 · 의도 기반 질의 대응 불가</li>
+        <li>환각 통제 없음</li>
+        <li>AI 품질은 주관적 확인</li>
+      </ul>
+    </div>
+    <div class="via" aria-hidden="true"><span class="arr">→</span><span>원인 단위 튜닝</span><span>회귀 평가</span></div>
+    <div class="side after">
+      <h4>AFTER</h4>
+      <ul>
+        <li>4소스 Hybrid Search <small>질의 유형별 동적 가중치</small></li>
+        <li>RAG + Agentic RAG <small>7종 도구 · 최대 6턴</small></li>
+        <li>Hallucination Guard + 결정적 금기 규칙</li>
+        <li>골든셋 + CI 평가 <small>워크플로우 3종 자동 실행</small></li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="architecture" class="diagram">
+    <p class="block-title">구조 · 질의에서 응답까지</p>
+    <div class="flow">
+      <div class="node">사용자 질의</div>
+      <div class="down"></div>
+      <div class="node">질의 분류 <small>키워드 / 자연어 · 복잡도</small></div>
+      <div class="down"></div>
+      <div class="fan">
+        <div class="node"><em>KEYWORD</em>약품명<small>pg_trgm</small></div>
+        <div class="node"><em>KEYWORD</em>성분 확장<small>LLM few-shot</small></div>
+        <div class="node"><em>SIGNAL</em>인기도<small>유사도 하한</small></div>
+        <div class="node"><em>SEMANTIC</em>효능 텍스트<small>pgvector cosine</small></div>
+      </div>
+      <div class="side-note">Multi-source Ranking · 점수 정규화 → 질의 유형별 가중 결합</div>
+      <div class="down"></div>
+      <div class="node key">RAG 답변 · Agentic 도구 호출<small>7종 도구 · 최대 6턴</small></div>
+      <div class="down"></div>
+      <div class="node guard">Hallucination Guard<small>답변 약품명 ↔ 검색 결과 대조 · 임신 금기는 결정적 규칙</small></div>
+      <div class="down"></div>
+      <div class="node">응답 <small>SSE 스트리밍</small></div>
+    </div>
+    <p class="block-title" id="evaluation" style="margin-top:26px">평가 루프 · 매 변경마다 CI에서</p>
+    <ol class="steps">
+      <li><b>골든셋</b><span>1,352건 · 할루시네이션 100종</span></li>
+      <li><b>5축 루브릭</b><span>사람 검수 콘솔</span></li>
+      <li><b>LLM-judge</b><span>사실 정확성 강제</span></li>
+      <li><b>교차검증</b><span>Gemini · Claude · GPT</span></li>
+      <li><b>대시보드</b><span>결과 DB 적재 · 상시 확인</span></li>
+    </ol>
+  </div>
+
+  <p class="block-title">기술적 의사결정 · Trade-off</p>
+  <div id="decisions" class="decisions">
+    <div class="dec"><b>인기도 소스에 유사도 하한</b><p>"혈압약" 검색에 무관한 인기약이 섞이던 원인. 하한을 추가하고 자연어 질의에서는 인기도 가중치를 낮춤.</p></div>
+    <div class="dec"><b>토큰별 UNION</b><p>"아스피린과 타이레놀"에서 인기약이 슬롯을 독점 → 약품마다 공정하게 슬롯 배정.</p></div>
+    <div class="dec"><b>효능 텍스트 사전 추출</b><p>JSONB 추출 + 9만 행 seq scan이 병목 → 컬럼으로 미리 뽑고 인덱스 분리. <span class="vs">11.7s → 0.46s (EXPLAIN 기준)</span></p></div>
+    <div class="dec"><b>모델 티어링 + 서킷브레이커</b><p>요약은 빠른 티어로 1차 처리하고 폴백을 둠. 응답 없는 모델은 끊음. <span class="vs">24s → 8s</span></p></div>
+    <div class="dec"><b>숨기지 않고 알린다</b><p>AI 판단으로 결과를 감추던 로직을 "관련도 낮음" 표시로 전환.</p></div>
+  </div>
+
+  <div id="contribution" class="contrib">
+    <div>
+      <p class="block-title">My Contribution</p>
+      <ul>
+        <li><b>Hybrid Search</b> — 4소스 랭킹, 질의 유형별 가중치</li>
+        <li><b>Embedding · Vector DB</b> — 임베딩 모델 3종 벤치마크 후 교체, IVFFlat → HNSW</li>
+        <li><b>RAG · Agentic RAG</b> — 도구 설계, 멀티턴 참조 해소</li>
+        <li><b>안전장치</b> — Hallucination Guard, 결정적 금기 규칙</li>
+        <li><b>평가 체계</b> — 골든셋 생성기, LLM-judge, CI 워크플로우</li>
+        <li><b>성능</b> — 쿼리 실행 계획 분석, 캐시, 모델 티어링</li>
+      </ul>
+    </div>
+    <div class="nums">
+      <span class="grp">무엇을 해결했나</span>
+      <div class="n"><b>87.7 → 94.7%</b><span>검색 정확도 · 골든셋 기준<br><i>자연어 · 의도 질의 대응</i></span></div>
+      <div class="n"><b>24s → 8s</b><span>자연어 검색 체감 대기<br><i>캐시 · 모델 티어링 · 리전</i></span></div>
+      <div class="n"><b>11.7s → 0.46s</b><span>효능 검색 · EXPLAIN 기준<br><i>JSONB seq scan 제거</i></span></div>
+      <div class="n"><b>67 → 100%</b><span>감기약 카테고리 정확도<br><i>few-shot 성분 추출</i></span></div>
+      <span class="grp">품질을 유지하는 장치</span>
+      <div class="n"><b>1,352건</b><span>골든셋 · CI 회귀 평가</span></div>
+      <div class="n"><b>100종</b><span>할루시네이션 골든셋 · 기대사실 재현율</span></div>
+      <div class="n" style="grid-column:1/-1"><b>7종 · 6턴</b><span>Agentic RAG 도구 수 · 턴 상한 · 결과 길이 제한으로 토큰 폭증 방지</span></div>
+    </div>
+  </div>
+  <div class="related" id="related">
+    <p class="block-title">관련 경험</p>
+    <ul><li><a href="experience.html#exp-perf">자연어 검색 24s → 8s · 효능 쿼리 11.7s → 0.46s</a></li><li><a href="experience.html#exp-guard">Hallucination Guard와 Agentic RAG</a></li><li><a href="experience.html#exp-eval">AI 품질 평가 체계</a></li><li><a href="https://github.com/D4MI3NCOD3S/DRUGINFO-CHATBOT">개인 프로젝트 DrugInfo Chatbot (GitHub)</a></li></ul>
+  </div>
+</section>
+
+<div class="wrap pager"><a class="prev" href="legacy-modernization.html"><span>이전</span>CASE 01 · 레거시 전면 리뉴얼</a><a class="next" href="vision-pipeline.html"><span>다음</span>CASE 03 · Vision Pipeline</a></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    이원복 · <a href="mailto:hwfrzy@gmail.com">hwfrzy@gmail.com</a> · <a href="https://github.com/D4MI3NCOD3S" target="_blank" rel="noopener">GitHub</a> · <a href="index.html">Overview</a><br>
+    수치는 사내 저장소 · 티켓 기록 실측값이고, 비공개 항목은 면접에서 설명드릴 수 있습니다.
+  </div>
+</footer>
+
+<script src="assets/main.js"></script>
+</body>
+</html>

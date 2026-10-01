@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Azure Migration — 이원복</title>
+<meta name="description" content="물리 서버 7대를 Azure로 이관하며 컷오버 당일 변경을 DB · DNS로 좁혀 1회차에 성공한 케이스 스터디.">
+<meta property="og:title" content="Azure Migration — 이원복">
+<meta property="og:description" content="물리 서버 7대를 Azure로 이관하며 컷오버 당일 변경을 DB · DNS로 좁혀 1회차에 성공한 케이스 스터디.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232f5bd3'/><text x='16' y='22' font-size='16' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'>WB</text></svg>">
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html">이원복</a>
+    <div class="links">
+      <a class="back" href="index.html">← Overview</a>
+      <a href="legacy-modernization.html">레거시 전면 리뉴얼</a><a href="ai-search-rag.html">AI Search · RAG</a><a href="vision-pipeline.html">Vision Pipeline</a><a href="azure-migration.html" aria-current="page">Azure Migration</a><a href="force-multiplier.html">Force Multiplier</a>
+      <a href="experience.html">Experience</a>
+    </div>
+    <button class="theme-btn" id="themeBtn" aria-label="다크/라이트 모드 전환">◐</button>
+  </div>
+</nav>
+<main>
+<section class="wrap case detail" id="case-azure" aria-labelledby="c4">
+  <div class="case-head">
+    <span class="no">CASE 04</span>
+    <h1 class="case-title" id="c4">온프레미스 IDC → Azure 전면 이관</h1>
+    <div class="case-meta"><span><b>기간</b> 2024.03 착수 – 2025.05 안정화 · 컷오버 2025.03.29–30</span><span><b>역할</b> DB 전환 담당 → 선임 퇴사 후 프로젝트 전체 인수 · 완수</span></div>
+    <div class="chips"><span>Azure SQL MI</span><span>Blob Storage</span><span>Azure DNS</span><span>IIS</span><span>azCopy</span></div>
+  </div>
+  <nav class="subnav" aria-label="이 페이지"><a href="#problem">Problem</a><a href="#before-after">Before / After</a><a href="#architecture">위험 분리 · 런북</a><a href="#decisions">Decisions</a><a href="#contribution">Contribution · Metrics</a><a href="#related">Related</a></nav>
+
+  <div class="pa" id="problem">
+    <div><h4>Problem</h4><p>20년 된 서비스 전체가 자체 IDC의 물리 서버 7대(운영 웹 2 · 테스트 · API · 파일 · DB 2)에서 돌고 있었습니다. 2009~2014년 세대 장비에 Windows Server · SQL Server 기술지원 종료로 보안 취약까지 겹쳤습니다. 병의원 · 약국이 매일 쓰는 서비스라 한 번의 심야 컷오버로 끝내야 했고, 코드 곳곳에 파일 경로가 하드코딩되어 있었습니다.</p></div>
+    <div><h4>Approach</h4><p>컷오버 당일에 DB · 파일 · DNS · 애플리케이션을 한꺼번에 바꾸면 문제가 생겨도 원인을 모르고 롤백 지점도 없습니다. 그래서 애플리케이션과 파일 경로 전환을 몇 달 앞당겨 끝내고, 당일에는 DB와 DNS만 넘기도록 위험을 나눴습니다.</p></div>
+  </div>
+
+  <div class="ba" id="before-after" role="group" aria-label="Before After 비교">
+    <div class="side before">
+      <h4>BEFORE</h4>
+      <ul>
+        <li>자체 IDC 물리 서버 7대 <small>2009–2014년 세대</small></li>
+        <li>SQL Server <small>기술지원 종료 · 보안 취약</small></li>
+        <li>로컬 파일 서버 <small>코드에 경로 하드코딩</small></li>
+        <li>담당자 이탈 <small>선임 퇴사 (2024.11)</small></li>
+      </ul>
+    </div>
+    <div class="via" aria-hidden="true"><span class="arr">→</span><span>사전 전환</span><span>당일 최소 변경</span><span>전수 대조</span></div>
+    <div class="side after">
+      <h4>AFTER</h4>
+      <ul>
+        <li>Azure 전면 이관 <small>1회차 컷오버 성공</small></li>
+        <li>Azure SQL MI <small>호환성 · SQL Agent 유지</small></li>
+        <li>Blob Storage <small>설정 스위치로 전환 · 복구 가능</small></li>
+        <li>구조적 장애 대책 <small>반복 지연을 해결 방안 보고서로 종결</small></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="diagram" id="architecture">
+    <p class="block-title">위험 분리 · 컷오버 당일에 바꾸는 것을 줄인다</p>
+    <div class="lanes">
+      <div class="lane">
+        <span class="lbl">사전 전환 · 2024.11 – 2025.03</span>
+        <div class="node">파일 서버 → Blob Storage</div>
+        <div class="down"></div>
+        <div class="node">애플리케이션 경로 전면 반영</div>
+        <div class="down"></div>
+        <div class="node guard">web.config 스위치<small>문제 시 설정만 되돌리면 복구</small></div>
+      </div>
+      <div class="lane">
+        <span class="lbl">컷오버 당일 · 2025.03.29</span>
+        <div class="node key">DB 운영 전환</div>
+        <div class="down"></div>
+        <div class="node key">DNS 전환</div>
+        <div class="down"></div>
+        <div class="node">애플리케이션은 이미 검증됨</div>
+      </div>
+    </div>
+    <p class="block-title" style="margin-top:26px">컷오버 런북 · 대부분의 구간을 직접 실행</p>
+    <ol class="steps six">
+      <li><b>소스 최신화</b><span>웹 · API · 배치 · 테스트</span></li>
+      <li><b>점검 페이지</b><span>리다이렉트 활성화</span></li>
+      <li><b>DNS 전환</b><span>기존 → Azure DNS</span></li>
+      <li><b>DB 전환 · 7h</b><span>백업 → 복사 → 복원 + 파일 azCopy</span></li>
+      <li><b>이행 테스트</b><span>자사 + 협력사 공동</span></li>
+      <li><b>서비스 재개</b><span>중단 약 12시간 · 재시도 없음</span></li>
+    </ol>
+  </div>
+
+  <p class="block-title">의사결정</p>
+  <div class="decisions" id="decisions">
+    <div class="dec"><b>모의 실험 먼저</b><p>운영 구성을 가상서버로 똑같이 재현해 검증한 뒤 착수. <span class="vs">6단계: 분석 → 모의 실험 → 업체 선정 → 이관 → 오픈 → 최적화</span></p></div>
+    <div class="dec"><b>MSP 4사 동일 기준 비교</b><p>3년 총비용 · 사후관리 포함 여부 · 방화벽/WAF · 부하 여유 · 라이선스 방식(Windows CSP, SQL Server 2019 vs 2022). <span class="vs">되돌리기 어려운 다년 비용 결정</span></p></div>
+    <div class="dec"><b>Azure SQL MI 선택</b><p>기존 코드와의 호환성과 SQL Agent 작업을 그대로 유지하기 위해.</p></div>
+    <div class="dec"><b>"옮겼다"가 아니라 "빠짐없이"</b><p>이관 전후 7개 DB의 테이블 · 뷰 · 프로시저 · 함수 · 제약을 객체 단위로 대조. 조용히 빠진 프로시저 하나가 몇 달 뒤에 터지기 때문.</p></div>
+    <div class="dec"><b>세 번째 장애는 고치지 않고 보고</b><p>이관 후 같은 지연이 반복되자 개별 수정 대신 "구조 문제"로 묶은 해결 방안 보고서를 써서 승인받고 종결.</p></div>
+  </div>
+
+  <div class="contrib" id="contribution">
+    <div>
+      <p class="block-title">My Contribution</p>
+      <ul>
+        <li><b>DB 서버 전환</b> — 착수 시점 담당 영역</li>
+        <li><b>프로젝트 전체 인수</b> — 선임 퇴사 후 웹 · 앱 서버 전환과 업체 조사까지</li>
+        <li><b>사전 전환</b> — 파일 I/O 경로 Blob 전환, 인쇄 · 이미지 리소스 경로 전수 점검</li>
+        <li><b>런북</b> — 시간대별 작업 · 담당 · 대상 서버 작성, DNS 전환 · 파일 동기화 등 직접 실행</li>
+        <li><b>검증</b> — 7개 DB 객체 전수 대조, 불일치 개별 추적</li>
+        <li><b>이관 후</b> — 구 인프라 회수, 백업 정책, 차단 IP, WAF 정책, 블로킹 분석, MS 지원 에스컬레이션</li>
+      </ul>
+    </div>
+    <div class="nums">
+      <span class="grp">결과</span>
+      <div class="n"><b>7대</b><span>물리 서버 → Azure</span></div>
+      <div class="n"><b>1회차</b><span>단일 심야 컷오버 · 재시도 없음</span></div>
+      <div class="n"><b>~12시간</b><span>서비스 중단 · DB 전환 7시간</span></div>
+      <div class="n"><b>1,400+</b><span>DB 객체 전수 대조 · 프로시저 1,402</span></div>
+      <span class="grp">이어진 작업</span>
+      <div class="n"><b>95건</b><span>Blob 전환 본인 커밋 · 8개 서비스</span></div>
+      <div class="n"><b>3~4s → 1.24s</b><span>이관 후 Redis 도입 · OpenAPI 응답</span></div>
+    </div>
+  </div>
+  <div class="related" id="related">
+    <p class="block-title">관련 경험</p>
+    <ul><li><a href="experience.html#exp-blob">Blob Storage 단계 전환 (95건 · 8개 서비스)</a></li><li><a href="experience.html#exp-solo">레거시 3년 단독 운영</a></li><li><a href="experience.html#exp-git">TFS → Git 전환</a></li></ul>
+  </div>
+</section>
+<div class="wrap pager"><a class="prev" href="vision-pipeline.html"><span>이전</span>CASE 03 · Vision Pipeline</a><a class="next" href="force-multiplier.html"><span>다음</span>LEADERSHIP · Force Multiplier</a></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    이원복 · <a href="mailto:hwfrzy@gmail.com">hwfrzy@gmail.com</a> · <a href="https://github.com/D4MI3NCOD3S" target="_blank" rel="noopener">GitHub</a> · <a href="index.html">Overview</a><br>
+    수치는 사내 저장소 · 티켓 기록 실측값이고, 비공개 항목은 면접에서 설명드릴 수 있습니다.
+  </div>
+</footer>
+
+<script src="assets/main.js"></script>
+</body>
+</html>

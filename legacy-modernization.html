@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>레거시 전면 리뉴얼 — 이원복</title>
+<meta name="description" content="20년 된 ASP.NET · SQL Server 서비스를 운영을 멈추지 않고 FastAPI · Vue 3 · PostgreSQL · AWS로 재작성해 2026.09.14 오픈한 케이스 스터디.">
+<meta property="og:title" content="레거시 전면 리뉴얼 — 이원복">
+<meta property="og:description" content="20년 된 ASP.NET · SQL Server 서비스를 운영을 멈추지 않고 FastAPI · Vue 3 · PostgreSQL · AWS로 재작성해 2026.09.14 오픈한 케이스 스터디.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232f5bd3'/><text x='16' y='22' font-size='16' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'>WB</text></svg>">
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html">이원복</a>
+    <div class="links">
+      <a class="back" href="index.html">← Overview</a>
+      <a href="legacy-modernization.html" aria-current="page">레거시 전면 리뉴얼</a><a href="ai-search-rag.html">AI Search · RAG</a><a href="vision-pipeline.html">Vision Pipeline</a><a href="azure-migration.html">Azure Migration</a><a href="force-multiplier.html">Force Multiplier</a>
+      <a href="experience.html">Experience</a>
+    </div>
+    <button class="theme-btn" id="themeBtn" aria-label="다크/라이트 모드 전환">◐</button>
+  </div>
+</nav>
+<main>
+<section class="wrap case detail" id="case-renewal" aria-labelledby="c1">
+  <div class="case-head">
+    <span class="no">CASE 01</span>
+    <h1 class="case-title" id="c1">20년 레거시 서비스 전면 리뉴얼</h1>
+    <div class="case-meta"><span><b>기간</b> 2026.02 – 2026.09.14 오픈</span><span><b>역할</b> PM · 개발리더 · 최다 기여 개발자</span><span><b>팀</b> 7명 크로스펑셔널</span></div>
+    <div class="chips"><span>Python · FastAPI (asyncpg)</span><span>Vue 3</span><span>PostgreSQL 16</span><span>AWS</span><span>GitHub Actions</span><span>CloudFormation</span></div>
+  </div>
+  <nav class="subnav" aria-label="이 페이지"><a href="#problem">Problem</a><a href="#journey">Journey</a><a href="#before-after">Before / After</a><a href="#architecture">Architecture</a><a href="#decisions">PM × Engineering</a><a href="#contribution">Contribution</a><a href="#related">Related</a></nav>
+
+  <div id="problem" class="pa">
+    <div><h4>Problem</h4><p>DB 56개, 프로시저·함수·뷰 2,400개 이상, 8,255만 행의 레거시. 재작성 전에는 무엇이 얼마나 있는지조차 파악되지 않았습니다. 서비스를 멈출 수 없었고, 회원 계정·포인트·구독을 그대로 이어받아야 했습니다. 개발 인력은 실질 2명과 외주 1명이었습니다.</p></div>
+    <div><h4>Approach</h4><p>먼저 레거시 전체를 세어보고(센서스) 무엇을 옮기지 않을지 정했습니다. 새 시스템은 레거시와 나란히 돌리면서 매일 데이터를 맞추고, 업무 규칙은 동치성 검증으로 보존했습니다.</p></div>
+  </div>
+
+  <p class="block-title">흐름 · 무엇이 있는지 모르는 상태에서 오픈까지</p>
+  <ol id="journey" class="journey">
+    <li class="ctx">20년 레거시</li>
+    <li class="ctx">운영 중단 불가</li>
+    <li class="ctx">무엇이 있는지 불명확</li>
+    <li>전수 센서스</li>
+    <li>재설계 · 재작성 · 폐기 판정</li>
+    <li>신규 서비스 병행 구축</li>
+    <li>데이터 정합성 검증</li>
+    <li>테스트 · 보안 · 부하 검증</li>
+    <li>롤백 가능한 릴리즈</li>
+    <li class="end">2026.09.14 오픈</li>
+  </ol>
+
+  <div id="before-after" class="ba" role="group" aria-label="Before After 비교">
+    <div class="side before">
+      <h4>BEFORE</h4>
+      <ul>
+        <li>ASP.NET 모놀리스</li>
+        <li>SQL Server <small>SP · Function · View 2,400+ · 8,255만 행</small></li>
+        <li>멈출 수 없는 운영 서비스</li>
+        <li>자동 테스트 · IaC 없음</li>
+        <li>롤백 경로가 없는 배포</li>
+      </ul>
+    </div>
+    <div class="via" aria-hidden="true"><span class="arr">→</span><span>센서스</span><span>병행 운영</span><span>동치성 검증</span></div>
+    <div class="side after">
+      <h4>AFTER</h4>
+      <ul>
+        <li>FastAPI <small>모듈 33개</small> · Vue 3</li>
+        <li>PostgreSQL 16 <small>마이그레이션 86차</small></li>
+        <li>AWS <small>API = EC2 ASG · 배치 = Lambda</small></li>
+        <li>pytest · Playwright E2E · AI 품질 평가</li>
+        <li>불변 릴리즈 + 라우팅 스왑 롤백</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="architecture" class="diagram">
+    <p class="block-title">구조 · 병행 운영과 전환</p>
+    <div class="lanes">
+      <div class="lane">
+        <span class="lbl">LEGACY · 운영 유지</span>
+        <div class="node">ASP.NET 서비스</div>
+        <div class="down"></div>
+        <div class="node">SQL Server (Azure SQL MI)</div>
+      </div>
+      <div class="lane">
+        <span class="lbl">NEW · 리뉴얼</span>
+        <div class="node key">FastAPI + Vue 3</div>
+        <div class="down"></div>
+        <div class="node key">PostgreSQL 16</div>
+      </div>
+      <div class="bridge"><span class="line"></span><span>매일 델타 동기화 + 원천 CHECKSUM 대조 → 누락 변경 자동 보정</span><span class="line"></span></div>
+      <div class="bridge"><span class="line"></span><span>사용자 트래픽은 <b>라우팅 스왑</b>으로 전환 · 문제 시 즉시 구버전으로</span><span class="line"></span></div>
+    </div>
+    <p class="block-title" style="margin-top:26px">배포 파이프라인 · 검증한 이미지만 운영으로</p>
+    <ol class="steps">
+      <li><b>git push</b><span>GitHub Actions · OIDC</span></li>
+      <li><b>인프라 체크</b><span>CloudFormation</span></li>
+      <li><b>Build → ECR</b><span>digest 기록 · 태그 불변</span></li>
+      <li><b>Preprod 자동</b><span>마이그레이션 선검증</span></li>
+      <li><b>Prod 수동 승인</b><span>재빌드 없이 digest 승격</span></li>
+    </ol>
+  </div>
+
+  <div id="decisions" class="pm-eng">
+    <div class="pe-head">
+      <p class="block-title">PM 판단 × 엔지니어링</p>
+      <h3>코드를 직접 쓰고 있었기 때문에, 현실적인 결정을 할 수 있었습니다</h3>
+    </div>
+    <div class="pe-cols" aria-hidden="true"><span>PM 판단</span><span></span><span>그 판단을 가능하게 한 엔지니어링</span></div>
+    <div class="pe-row"><div class="pe-pm"><b>범위 축소 3건</b><span>감사 트리거 513건 미포팅 · 인증 예외 → 계정 일괄 생성 · PG 전환 분리</span></div><i aria-hidden="true">←</i><div class="pe-eng"><b>T-SQL 전수 센서스</b><span>동적 SQL 593 · 커서 113 · NOLOCK 5,090 · 감사 트리거 513 → 군집별 판정</span></div></div>
+    <div class="pe-row"><div class="pe-pm"><b>병행 운영 후 전환</b><span>레거시를 끄지 않고 옆에서 구축 · 검증</span></div><i aria-hidden="true">←</i><div class="pe-eng"><b>자가 보정 ETL</b><span>매일 델타 동기화 + 원천 CHECKSUM 대조 · 마이그레이션 러너 86차</span></div></div>
+    <div class="pe-row"><div class="pe-pm"><b>품질 게이트를 릴리즈 조건으로</b><span>통과해야 릴리즈한다고 미리 선언</span></div><i aria-hidden="true">←</i><div class="pe-eng"><b>검증 체계</b><span>SP 재구현 96건 diff=0 · 테스트 191건 · E2E 177 · 보안 회귀 · 부하 테스트</span></div></div>
+    <div class="pe-row"><div class="pe-pm"><b>릴리즈 2주 연기, 최종 마일스톤 유지</b><span>숫자와 대안으로 경영진 승인</span></div><i aria-hidden="true">←</i><div class="pe-eng"><b>롤백 가능한 릴리즈</b><span>라우팅 스왑 즉시 롤백 · digest 고정 승격 · 태그 불변</span></div></div>
+    <div class="pe-row"><div class="pe-pm"><b>미결 의사결정 12건 · 기술 의사결정 정본</b><span>결정권자 · 기한 · 미결 시 영향</span></div><i aria-hidden="true">←</i><div class="pe-eng"><b>실측 기반 아키텍처</b><span>로그 실측 비용 비교로 EC2 ASG / Lambda 분리 · 단일 PG + JSONB 승격 규칙</span></div></div>
+  </div>
+
+  <div id="contribution" class="contrib big">
+    <p class="block-title">My Contribution</p>
+    <div class="roles">
+      <div class="role"><b>PM</b><span>WBS · 미결 의사결정 · 릴리즈 거버넌스 · 테스트 체계 설계</span></div>
+      <div class="role"><b>Tech Lead</b><span>아키텍처 · 컴퓨트 분리 · 롤백 구조 · 기술 의사결정 정본</span></div>
+      <div class="role"><b>Hands-on Backend</b><span>FastAPI 모듈 · MSSQL → PostgreSQL · ETL · CI/CD · 보안</span></div>
+    </div>
+    <div class="nums four">
+      <span class="grp">직접 구현 · Git 실측 (커밋 · 줄 수는 오픈 시점 main)</span>
+      <div class="n"><b>681 / 1,129</b><span>커밋 60% · 기여자 8명 중 1위</span></div>
+      <div class="n"><b>+145,552</b><span>줄 추가</span></div>
+      <div class="n"><b>316</b><span>GitHub PR 작성 · 309건 머지</span></div>
+      <div class="n"><b>86차</b><span>자체 마이그레이션 러너 누적 적용</span></div>
+      <span class="grp">검증</span>
+      <div class="n"><b>96건 diff=0</b><span>레거시 SP 재구현 동치성</span></div>
+      <div class="n"><b>191건</b><span>테스트케이스 · 직접 설계</span></div>
+      <div class="n"><b>177</b><span>E2E 케이스 · 프로젝트 전체</span></div>
+      <div class="n"><b>165</b><span>pytest 파일 · 프로젝트 전체</span></div>
+    </div>
+  </div>
+  <div class="related" id="related">
+    <p class="block-title">관련 경험</p>
+    <ul><li><a href="experience.html#exp-census">레거시 전수 센서스와 자가 보정 ETL</a></li><li><a href="experience.html#exp-pipeline">불변 릴리즈 파이프라인</a></li><li><a href="experience.html#exp-release">릴리즈 2주 연기를 숫자와 대안으로</a></li><li><a href="experience.html#exp-decisions">미결 의사결정 트랙</a></li><li><a href="experience.html#exp-testing">비개발 직군 테스트 참여 구조</a></li><li><a href="experience.html#exp-agent">AI 코딩 에이전트 + 검증 게이트</a></li></ul>
+  </div>
+</section>
+
+<div class="wrap pager"><a class="prev" href="index.html"><span>처음으로</span>Career Overview</a><a class="next" href="ai-search-rag.html"><span>다음</span>CASE 02 · AI Search · RAG</a></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    이원복 · <a href="mailto:hwfrzy@gmail.com">hwfrzy@gmail.com</a> · <a href="https://github.com/D4MI3NCOD3S" target="_blank" rel="noopener">GitHub</a> · <a href="index.html">Overview</a><br>
+    수치는 사내 저장소 · 티켓 기록 실측값이고, 비공개 항목은 면접에서 설명드릴 수 있습니다.
+  </div>
+</footer>
+
+<script src="assets/main.js"></script>
+</body>
+</html>

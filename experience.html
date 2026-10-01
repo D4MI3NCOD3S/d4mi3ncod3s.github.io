@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 경험 — 이원복</title>
+<meta name="description" content="이원복의 전체 경험 19건, 연도별 Timeline, 일하는 방식.">
+<meta property="og:title" content="전체 경험 — 이원복">
+<meta property="og:description" content="이원복의 전체 경험 19건, 연도별 Timeline, 일하는 방식.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232f5bd3'/><text x='16' y='22' font-size='16' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'>WB</text></svg>">
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html">이원복</a>
+    <div class="links">
+      <a class="back" href="index.html">← Overview</a>
+      <a href="legacy-modernization.html">레거시 전면 리뉴얼</a><a href="ai-search-rag.html">AI Search · RAG</a><a href="vision-pipeline.html">Vision Pipeline</a><a href="azure-migration.html">Azure Migration</a><a href="force-multiplier.html">Force Multiplier</a>
+      <a href="experience.html" aria-current="page">Experience</a>
+    </div>
+    <button class="theme-btn" id="themeBtn" aria-label="다크/라이트 모드 전환">◐</button>
+  </div>
+</nav>
+<main>
+<section class="wrap" id="experience">
+  <div class="section-head">
+    <h1 class="page-title">전체 경험</h1>
+    <p>19건 · 분야로 거르고, 펼쳐서 자세히</p>
+  </div>
+
+  <div class="notice" role="note">
+    <span class="redact s" aria-hidden="true"></span>
+    <span>재직 중인 회사의 내부 정보(고객사·협력사 이름, 내부 시스템 식별자, 사업 지표, 보안 설정 세부 등)는 가리거나 일반화했습니다. 자세한 내용은 면접에서 설명드릴 수 있어요.</span>
+  </div>
+
+  <div class="filters" role="group" aria-label="분야 필터">
+    <button class="chip" data-filter="all" aria-pressed="true">전체</button>
+    <button class="chip" data-filter="ai" aria-pressed="false">AI · RAG</button>
+    <button class="chip" data-filter="backend" aria-pressed="false">Backend · Data</button>
+    <button class="chip" data-filter="infra" aria-pressed="false">Infra · DevOps</button>
+    <button class="chip" data-filter="pm" aria-pressed="false">PM · 리더십</button>
+    <button class="chip" data-filter="ops" aria-pressed="false">레거시 운영</button>
+  </div>
+
+  <div class="grid" id="cards" data-initial="all">
+
+    <article class="card" id="exp-dotnet" data-tags="ops backend">
+      <div class="tags"><span class="tag">레거시 운영</span><span class="tag">Backend · Data</span><span class="when">2024.01 –</span></div>
+      <h3>.NET 2.0부터 8.0까지, 여러 세대의 레거시 서비스 유지보수</h3>
+      <p class="hook">프레임워크 버전이 제각각인 서비스와 도메인을 동시에 맡아, 결함 수정에 그치지 않고 기능 추가와 개선까지 해왔습니다.</p>
+      <div class="metric"><span class="big">.NET 2.0 – 8.0</span><span class="cap">Framework 2.0 · 3.5 · 4.x · .NET 8 · 11개 서비스 · 커밋 697 / 1,154건(60%)</span></div>
+      <details><summary>자세히</summary><div class="body"><dl>
+        <dt>서비스별 본인 커밋 · 대상 .NET 버전 <span class="src">Git 실측 · merge 제외 · 2026.09.30</span></dt><dd>
+          <div class="bars" role="table" aria-label="서비스별 본인 커밋 수">
+            <span>B2B 통합 서비스 <small>3.5–4.7.2</small></span><span class="b" style="width:100%"></span><span class="v">254</span>
+            <span>웹 (B2C) <small>2.0–4.0</small></span><span class="b" style="width:61%"></span><span class="v">155</span>
+            <span>통합 서비스 · 병의원 <small>3.5–4.7.2</small></span><span class="b" style="width:41.3%"></span><span class="v">105</span>
+            <span>대외 OpenAPI <small>2.0–4.6.2</small></span><span class="b" style="width:24%"></span><span class="v">61</span>
+            <span>관리도구 <small>2.0–4.7.2</small></span><span class="b" style="width:17.3%"></span><span class="v">44</span>
+            <span>플러스 <small>3.5–4.7.2</small></span><span class="b" style="width:9.8%"></span><span class="v">25</span>
+            <span>내부 API <small>.NET 8</small></span><span class="b" style="width:5.9%"></span><span class="v">15</span>
+            <span>인쇄 서비스 <small>3.5–4.7.2</small></span><span class="b" style="width:5.1%"></span><span class="v">13</span>
+            <span>고객사 포털 <small>2.0–4.5</small></span><span class="b" style="width:4.7%"></span><span class="v">12</span>
+            <span>배치 <small>4.7.2</small></span><span class="b" style="width:3.1%"></span><span class="v">8</span>
+            <span>환자 서비스 <small>2.0–4.0</small></span><span class="b" style="width:2%"></span><span class="v">5</span>
+          </div>
+        </dd>
+        <dt>대표 작업</dt><dd><ul>
+          <li>결제 · 포인트 사용 기능 개편, 메일 발송을 SMTP에서 내부 API로 이전, IP 기반 권한 체크를 계정 기반으로 전환</li>
+          <li>운영 배포본과 저장소가 어긋나 깨져 있던 레거시 빌드를 운영 백업과 대조해 복구 (2026.04–05)</li>
+          <li>Azure DevOps PR <b>172건</b> 작성 (전체 267건 중 64%, 117건 완료)</li>
+        </ul></dd>
+      </dl></div></details>
+    </article>
+
+    <article class="card" id="exp-release" data-tags="pm">
+      <div class="tags"><span class="tag">PM · 리더십</span><span class="when">2026.08</span></div>
+      <h3>"못 합니다" 대신 숫자와 대안으로 릴리즈 2주 연기를 받아냄</h3>
+      <p class="hook">품질 게이트 미충족을 정량으로 보여주고, 롤백 구조 덕분에 이후 일정은 그대로라는 걸 설명해 경영진 승인을 받았습니다.</p>
+      <div class="metric"><span class="big">0일</span><span class="cap">컷오버 · 완전전환 · 다음 Phase 착수 일정 변동</span></div>
+      <details><summary>자세히</summary><div class="body"><dl>
+        <dt>상황</dt><dd>릴리즈를 19일 앞둔 시점에 통합 테스트케이스는 공식 실행 전, AI Q&amp;A는 237건 중 5건만 실행된 상태였고 테스터 교육도 하지 않은 상태였습니다.</dd>
+        <dt>한 일</dt><dd><ul>
+          <li>릴리즈 조건을 미리 선언: 레거시 동치성 diff=0, 보안 회귀(결제·세션·IDOR), 부하 테스트</li>
+          <li>라우팅 스왑 기반 즉시 롤백 구조라 영향이 Soft-Launch 기간 단축에만 그친다는 점을 논증</li>
+          <li>"무엇을 포기하면 지킬 수 있고, 지금 포기하면 무엇을 잃는지"를 선택지로 제시</li>
+        </ul></dd>
+        <dt>결과</dt><dd>품질을 깎는 대신 기간을 조정하는 결정을 받았고, 최종 마일스톤은 지켰습니다.</dd>
+      </dl></div></details>
+    </article>
+
+    <article class="card" id="exp-azure" data-tags="infra pm">
+      <div class="tags"><span class="tag">Infra · DevOps</span><span class="tag">PM · 리더십</span><span class="when">2024.03 – 2025.05</span></div>
+      <h3>물리 서버 7대를 Azure로 전면 이관, 단일 컷오버 1회차에 성공</h3>
+      <p class="hook">DB 전환 담당으로 시작했는데 선임이 퇴사하면서 프로젝트 전체를 넘겨받아 끝까지 마무리했습니다.</p>
+      <div class="metric"><span class="big">1회차 성공</span><span class="cap">심야 컷오버 창 1회 · 재시도 없음 · DB 객체 1,400+ 전수 대조</span></div>
+      <details><summary>자세히</summary><div class="body"><dl>
+        <dt>핵심 판단: 당일에 바꾸는 것을 줄인다</dt><dd>DB, 파일, DNS, 애플리케이션을 하루에 다 바꾸면 문제가 생겨도 원인을 모르고 롤백 지점도 없습니다. 그래서 파일 서버 → Blob 전환과 애플리케이션 경로 반영을 <b>몇 달 앞당겨</b> 끝내고 설정 스위치로 되돌릴 수 있게 했습니다. 컷오버 당일에는 DB와 DNS만 넘겼습니다.</dd>
+        <dt>한 일</dt><dd><ul>
+          <li>운영 구성을 가상서버로 똑같이 재현해 모의 검증</li>
+          <li>MSP <span class="redact s" title="비공개"></span> 등 4개사를 3년 총비용 · 사후관리 · 보안 포함 여부 · 라이선스 방식 기준으로 비교</li>
+          <li>시간대별 컷오버 런북을 작성하고 대부분 구간을 직접 실행</li>
+          <li>이관 전후로 DB 7개(<span class="redact m" title="비공개"></span>)의 테이블·뷰·프로시저·제약을 객체 단위로 대조</li>
+        </ul></dd>
+        <dt>이관 후</dt><dd>같은 지연 장애가 세 번 나자, 또 고치는 대신 "개별 버그가 아니라 구조 문제"라는 해결 방안 보고서를 써서 승인받고 종결했습니다.</dd>
+      </dl></div></details>
+    </article>
+
+    <article class="card" id="exp-solo" data-tags="ops">
+      <div class="tags"><span class="tag">레거시 운영</span><span class="when">2023.11 –</span></div>
+      <h3>문서도 원작자도 없는 20년 코드베이스를 3년간 단독 운영</h3>
+      <p class="hook">웹(B2C/B2B), 대외 API, 모바일 앱, DB, 인프라, 보안, CS까지 사수 없이 혼자 맡았고, 리뉴얼을 하는 동안에도 레거시 티켓을 같이 처리했습니다.</p>
+      <div class="metric"><span class="big">~190건</span><span class="cap">작업 티켓 · 커밋 697 / 1,154건(60%) · DevOps PR 172건 · 회원 60만+ · B2B 5천여 곳</span></div>
+      <details><summary>자세히</summary><div class="body"><dl>
+        <dt>이 도메인에서 진짜 중요한 것</dt><dd>약국과 병원이 매일 쓰는 건 검색 화면이 아니라 프린터에서 나오는 종이입니다. 약봉투에 성분이 안 찍히면 그게 장애입니다. 자동인쇄, 약봉투, 복약지도문, 식별보고서의 출력 결함을 끝까지 추적해 고쳤습니다.</dd>
+        <dt>규제 데이터</dt><dd>심평원 · 식약처 데이터가 바뀌면 당일 반영해야 합니다. DUR 연동은 두 가지 모드로 경로를 이중화해 한쪽이 죽어도 서비스가 유지되게 했습니다.</dd>
+        <dt>만든 것</dt><dd>Redis 도입 후 OpenAPI 전체 적용(응답 3~4s → 1.24s), 자동인쇄 클라이언트, 메일링 서비스, 복약안내문 카카오톡 발송. 외부 EMR/OCS 벤더 <span class="redact m" title="비공개"></span> 등 5곳과 연동했습니다.</dd>
+      </dl></div></details>
+    </article>
+
+    <article class="card" id="exp-decisions" data-tags="pm">
+      <div class="tags"><span class="tag">PM · 리더십</span><span class="when">2026</span></div>
+      <h3>'못 만든 것'과 '아무도 안 정한 것'을 분리해서 관리</h3>
+      <p class="hook">미결 의사결정 12건을 WBS와 따로 떼어 결정권자 · 기한 · <b>미결 시 영향</b>으로 관리했고, 범위를 줄이는 결정 3건으로 일정을 확보했습니다.</p>
+      <div class="metric"><span class="big">12건</span><span class="cap">미결 의사결정 트랙 · 범위 축소 결정 3건</span></div>
+      <details><summary>자세히</summary><div class="body"><dl>
+        <dt>핵심</dt><dd>"대기"라고만 적으면 아무도 정하지 않습니다. <i>"안 켜면 전 기능이 무료로 열린 채 오픈된다"</i>처럼 결과를 문장으로 쓰니 결정이 빨라졌습니다.</dd>
+        <dt>만들지 않기로 한 것</dt><dd><ul>
+          <li>단체 회원 인증 예외 구조를 새로 만드는 대신 계정 일괄 생성 + 권한 부여</li>
+          <li>결제 PG 전환을 오픈 임계 경로에서 떼어내 오픈 이후로 이동</li>
+          <li>레거시 감사 트리거 513건을 포팅하지 않고 통합 감사 로그로 재설계</li>
+        </ul></dd>
+        <dt>그 밖에</dt><dd>완료 기준을 산출물로 정의(“PR 머지·preprod 반영”)했고, 진척 미보고도 리스크 상태로 표시했습니다.</dd>
+      </dl></div></details>
+    </article>
+
+    <article class="card" id="exp-pipeline" data-tags="infra">
+      <div class="tags"><span class="tag">Infra · DevOps</span><span class="when">2026</span></div>
+      <h3>배포 = 운영을 바꿀 수 있는 경로 줄이기: 불변 릴리즈 파이프라인</h3>
+      <p class="hook">preprod에서 검증한 이미지와 prod에 뜨는 이미지가 반드시 같도록, 재빌드 없이 digest를 고정해 승격합니다.</p>
+      <div class="metric"><span class="big">22종</span><span class="cap">GitHub Actions 워크플로우 · OIDC · CloudFormation IaC</span></div>
+      <details><summary>자세히</summary><div class="body"><dl>
+        <dt>조치 → 막으려는 사고</dt><dd><ul>
+          <li>digest 고정 + 재빌드 없는 승격 → 검증한 것과 배포된 것이 다른 상황</li>
+          <li><code>:latest</code> 중단 + 태그 불변성 → 리뷰 없이 태그를 옮겨 운영을 바꾸는 경로</li>
+          <li>fail-closed 부트스트랩 → 릴리즈 목록에 없는 이미지가 기동</li>
+          <li>기반 이미지 고정 + 주간 최신성 점검 → 게이트는 통과했지만 기반 이미지가 낡은 사각지대</li>
+          <li>선별적 승인 게이트 → 승인 피로(인스턴스를 교체하는 변경만 사람이 확인)</li>
+          <li>OIDC → 장기 자격증명 유출</li>
+        </ul></dd>
+        <dt>그 밖에</dt><dd>배포 실패 시 롤백 대상 릴리즈 정보를 담은 알림이 자동으로 나갑니다. WAF 차단 전환, 스크래핑 방지, 민감정보 암호화도 적용했습니다.</dd>
+      </dl></div></details>
+    </article>
+
+    <!-- 여기부터 '전체 보기'로 펼쳐짐 -->
+
+    <article class="card" id="exp-census" data-tags="backend infra">
+      <div class="tags"><span class="tag">Backend · Data</span><span class="tag">Infra · DevOps</span><span class="when">2026</span></div>
+      <h3>"다시 쓰기" 전에 "다 세어보기": 레거시 전수 센서스와 자가 보정 ETL</h3>
+      <p class="hook">"전부 기계적으로 포팅한다"는 초기 가정을 전수 집계로 깨고, 레거시와 새 DB를 매일 스스로 맞추는 ETL을 만들었습니다.</p>
+      <div class="metric"><span class="big">86차</span><span class="cap">자체 마이그레이션 러너 누적 적용 · 매일 자동 정합 보정</span></div>
+      <details><summary>자세히</summary><div class="body"><dl>
+        <dt>센서스</dt><dd>레거시 객체 소스를 전부 덤프해 이관을 어렵게 하는 T-SQL 패턴을 집계했습니다. 동적 SQL 593, 커서 113, NOLOCK 5,090, 감사 트리거 513건. 그 결과로 군집별 재설계 / 재작성 / 폐기를 판정했습니다.</dd>
+        <dt>ETL 핵심 판단</dt><dd>레거시의 수정일 워터마크는 믿을 수 없었습니다(배치나 수기 수정이 타임스탬프를 남기지 않음). 그래서 델타 동기화 위에 <b>원천 CHECKSUM 지문 대조</b>를 얹어, 놓친 변경을 매일 자동으로 보정합니다. 임베딩 증분과 MV 리프레시까지 사람 손 없이 돌아갑니다.</dd>
+      </dl></div></details>
+    </article>
+
+    <article class="card" id="exp-blob" data-tags="infra ops">
+      <div class="tags"><span class="tag">Infra · DevOps</span><span class="tag">레거시 운영</span><span class="when">2024.12 – 2026.08</span></div>
+      <h3>하드코딩된 파일 경로를 걷어내고 Blob Storage로 단계 전환</h3>
+      <p class="hook">20년 코드 곳곳에 박혀 있던 서버 파일 경로를 설정으로 빼고, 약품 사진 · 로고 · 첨부 · 인쇄 리소스를 Phase 단위로 클라우드 스토리지로 옮겼습니다.</p>
+      <div class="metric"><span class="big">95건 · 8개 서비스</span><span class="cap">Blob 전환 관련 본인 커밋 · Git 실측</span></div>
+      <details><summary>자세히</summary><div class="body"><dl>
+        <dt>방식</dt><dd>URL · 도메인 하드코딩을 web.config로 옮겨 설정 스위치로 전환 · 복구할 수 있게 하고, 업로드 · 다운로드 · 출력 경로를 하나씩 바꿨습니다. 운영에서 미반영 경로(사진 미노출, 다운로드 오류)가 나오면 경로 단위로 추적해 고쳤습니다.</dd>
+        <dt>의미</dt><dd>Azure 컷오버 당일의 변경을 인프라로 좁힐 수 있었던 사전 작업이자, 이후 리뉴얼의 S3 이관 준비로 이어졌습니다.</dd>
+      </dl></div></details>
+    </article>
+
+    <article class="card" id="exp-dur" data-tags="backend ops">
+      <div class="tags"><span class="tag">Backend · Data</span><span class="tag">레거시 운영</span><span class="when">2026.06 – 08</span></div>
+      <h3>심평원 DUR 연동을 .NET 8 내부 API로, Broker / Direct 이중 모드</h3>
+      <p class="hook">레거시 서비스들이 함께 쓰는 DUR 연동을 .NET 8 내부 API에 두고, 연동 경로 한쪽이 죽어도 서비스가 유지되도록 이중화했습니다.</p>
+      <div class="metric"><span class="big">2개 경로</span><span class="cap">Broker / Direct 이중 모드 · 투약이력 응급조회 연동</span></div>
+      <details><summary>자세히</summary><div class="body"><dl>
+        <dt>함께 한 작업</dt><dd>투약이력 응급조회를 식별보고서에서 입력 · 불러오기, 사전동의 게이트 정리, 보험코드 DB 보강, 통신사 PASS 본인인증 드라이버 연동.</dd>
+      </dl></div></details>
+    </article>
+
+    <article class="card" id="exp-git" data-tags="infra ops">
+      <div class="tags"><span class="tag">Infra · DevOps</span><span class="tag">레거시 운영</span><span class="when">2024.07 – 08</span></div>
+      <h3>TFS에서 Git으로: 팀의 형상관리 체계를 바꿈</h3>
+      <p class="hook">브랜치도, 코드리뷰도, CI도 붙일 수 없던 TFVC를 Git으로 옮기고, 도구만 바꾸고 끝나지 않도록 가이드를 쓰고 팀 교육까지 했습니다.</p>
+      <div class="metric"><span class="big">17개</span><span class="cap">현재 저장소 체계의 출발점 · Git LFS 도입</span></div>
+      <details><summary>자세히</summary><div class="body"><dl>
+        <dt>한 일</dt><dd>Azure DevOps 내장 Import와 git-tfs 두 경로를 비교 검증했고, 이행 제약(단일 분기, 히스토리 180일, 1GB 미만)을 먼저 확인했습니다. 대용량 파일 이행 실패는 Git LFS로 해결했습니다. 형상관리 이전 시기에 유실된 운영 배포본도 저장소와 대조해 복원했습니다.</dd>
+        <dt>의미</dt><dd>이 전환이 없었다면 이 페이지의 커밋 수치 자체가 존재하지 않습니다.</dd>
+      </dl></div></details>
+    </article>
+
+    <article class="card" id="exp-imprint" data-tags="backend ops">
+      <div class="tags"><span class="tag">Backend · Data</span><span class="tag">레거시 운영</span><span class="when">2026.06 – 07</span></div>
+      <h3>LLM 없이 알고리즘만으로 레거시 각인 매칭 재설계</h3>
+      <p class="hook">과매칭과 누락이 동시에 나던 문자열 매칭을, 실측 쿼리 시뮬레이션으로 둘 다 개선했습니다. 어느 한쪽도 희생하지 않았습니다.</p>
+      <div class="metric"><span class="big">1,001건</span><span class="cap">실측 쿼리 시뮬레이션 기반 적응형 과매칭 컷</span></div>
+      <details><summary>자세히</summary><div class="body"><dl>
+        <dt>물리적 인쇄가 만드는 변형</dt><dd><ul>
+          <li>앞·뒷면 구분 없는 입력 → 순서 무관 · 비중첩 매칭</li>
+          <li>캡슐 2줄 인쇄로 순서 뒤바뀜 → 전사(transposition) 매칭</li>
+          <li>반복 인쇄 ↔ DB에는 1회 저장 → 절반 접기 매칭</li>
+          <li>비슷한 문자 오독 → 유사문자 치환 + 치환 예산 제한</li>
+        </ul></dd>
+        <dt>핵심 판단</dt><dd>임계값 하나로 자르던 이진 컷을 <b>품질등급 사다리</b>로 바꿨습니다. 완전일치가 충분하면 변형 매칭을 조이고, 없으면 단계적으로 풉니다.</dd>
+        <dt>2차 개선 (2026.09)</dt><dd>마크 검색어, 180도 회전, 앞·뒤 순서 교환 매칭을 추가했습니다. 같은 엔진을 통합 서비스 · 병의원 · 인쇄 서비스 3곳에 이식했습니다.</dd>
+      </dl></div></details>
+    </article>
+
+    <article class="card" id="exp-testing" data-tags="pm">
+      <div class="tags"><span class="tag">PM · 리더십</span><span class="when">2026</span></div>
+      <h3>개발자 2명으로 191건 테스트를 돌린 방법: 비개발 직군 참여 구조</h3>
+      <p class="hook">기획, 마케팅, 영업, 외주 약사까지 테스트에 참여할 수 있게 설계하고, 자동화가 이미 커버하는 항목은 수동 테스트에서 걷어냈습니다.</p>
+      <div class="metric"><span class="big">191건</span><span class="cap">라우트 19 + API 91 전수 전개 · 13개 영역 · 회원 등급 3종 축</span></div>
+      <details><summary>자세히</summary><div class="body"><dl>
+        <dt>설계</dt><dd><ul>
+          <li>P1(스모크) / P2 / P3 우선순위 × 정상 · 예외 · 권한 · 회귀 · 보안 분류</li>
+          <li>권한 게이트가 이 서비스의 핵심 리스크라 비로그인 / 무료 / 유료를 모든 케이스의 축으로 둠</li>
+          <li>QA 시트에 FAQ 반영 여부까지 기록해 테스트가 곧 CS 준비가 되게 함</li>
+        </ul></dd>
+        <dt>사고를 프로세스로</dt><dd>마이그레이션 적용 오류와 조회 부하 사고를 겪은 뒤 중복 감지 가드, 적용 리허설, 부하 테스트를 릴리즈 전제 조건으로 넣었습니다.</dd>
+      </dl></div></details>
+    </article>
+
+    <article class="card" id="exp-agent" data-tags="ai pm">
+      <div class="tags"><span class="tag">AI · RAG</span><span class="tag">PM · 리더십</span><span class="when">2026.02 –</span></div>
+      <h3>AI 코딩 에이전트를 도입하되, 검증 게이트로 통제</h3>
+      <p class="hook">소수 인력으로 7개월 안에 재작성하기 위해 Claude Code를 포팅 · 스캐폴딩 · 테스트 작성에 투입하고, 레거시 동치성 diff=0을 통과한 산출물만 채택했습니다.</p>
+      <div class="metric"><span class="big">96건 diff=0</span><span class="cap">AI가 포팅한 레거시 로직의 동치성 검증</span></div>
+      <details><summary>자세히</summary><div class="body"><dl>
+        <dt>한 일</dt><dd><ul>
+          <li>T-SQL → PL/pgSQL 포팅, FastAPI 모듈 스캐폴딩, pytest/E2E 작성에 에이전트 활용</li>
+          <li>아키텍처 정본 문서를 외부 LLM으로 두 차례 검토받고, 채택한 지적과 기각한 지적을 모두 리비전에 기록</li>
+          <li>레거시와 신규 코드를 AI로 대조하는 <b>코드 동치 감사</b>로 오픈 전 임상 안전 · 보안 영역 <b>치명 결함 6건</b>을 찾아 수정</li>
+          <li>사내 AI 직무생산성 리포트를 작성하고 신규 개발자 온보딩에 반영</li>
+        </ul></dd>
+        <dt>결과</dt><dd>pytest 165파일, E2E 177케이스, AI 평가 CI 3종으로 AI가 만든 변경의 회귀를 자동으로 잡습니다.</dd>
+      </dl></div></details>
+    </article>
+
+    <article class="card" id="exp-renewal" data-tags="pm backend">
+      <div class="tags"><a class="case-link" href="legacy-modernization.html">CASE 01 →</a><span class="tag">PM · 리더십</span><span class="when">2026.02 – 09</span></div>
+      <h3>20년 레거시 서비스 전면 리뉴얼, PM이면서 최다 기여 개발자</h3>
+      <p class="hook">7명 크로스펑셔널 팀을 이끌면서 코드의 60%를 직접 써서, 운영을 멈추지 않고 ASP.NET 모놀리스를 FastAPI · Vue 3 · PostgreSQL로 옮겼습니다.</p>
+      <div class="metric"><span class="big">681 / 1,129</span><span class="cap">리뉴얼 커밋 · +145,552줄 · 2026.09.14 정식 오픈</span></div>
+    </article>
+
+    <article class="card" id="exp-rag" data-tags="ai">
+      <div class="tags"><a class="case-link" href="ai-search-rag.html">CASE 02 →</a><span class="tag">AI · RAG</span><span class="when">2025.12 –</span></div>
+      <h3>키워드 검색을 Hybrid Search + RAG로 바꿔 정확도 94.7%</h3>
+      <p class="hook">약품명 · 성분 확장 · 인기도 · 효능 텍스트 4개 소스를 정규화해 가중 결합하고, 질의 유형에 따라 가중치를 동적으로 조정했습니다.</p>
+      <div class="metric"><span class="from">87.7%</span><span class="arrow">→</span><span class="big">94.7%</span><span class="cap">검색 정확도 (골든셋 기준) · 감기약 카테고리 67→100%</span></div>
+    </article>
+
+    <article class="card" id="exp-eval" data-tags="ai">
+      <div class="tags"><a class="case-link" href="ai-search-rag.html">CASE 02 →</a><span class="tag">AI · RAG</span><span class="when">2025.12 –</span></div>
+      <h3>"좋아졌다"를 CI 회귀 테스트로: AI 품질 평가 체계</h3>
+      <p class="hook">RAG 튜닝은 하나 고치면 다른 데가 깨집니다. 골든셋, LLM-as-Judge, 외부 LLM 교차검증을 CI에서 매번 돌리도록 만들었습니다.</p>
+      <div class="metric"><span class="big">1,352건</span><span class="cap">골든셋 · 할루시네이션 100종 · 평가 워크플로우 3종 CI 자동 실행</span></div>
+    </article>
+
+    <article class="card" id="exp-perf" data-tags="ai backend">
+      <div class="tags"><a class="case-link" href="ai-search-rag.html">CASE 02 →</a><span class="tag">Backend · Data</span><span class="when">2026</span></div>
+      <h3>자연어 검색 24초를 8초로, 효능 쿼리 11.7초를 0.46초로</h3>
+      <p class="hook">"느리다"로 끝내지 않고, 콜드 지연을 캐시 · 모델 · 리전 3축으로 나누고 쿼리는 실행 계획부터 뜯어봤습니다.</p>
+      <div class="metric"><span class="from">11.7s</span><span class="arrow">→</span><span class="big">0.46s</span><span class="cap">효능 검색 (EXPLAIN 기준) · 실서비스 8~10s → 2.5~3s</span></div>
+    </article>
+
+    <article class="card" id="exp-guard" data-tags="ai">
+      <div class="tags"><a class="case-link" href="ai-search-rag.html">CASE 02 →</a><span class="tag">AI · RAG</span><span class="when">2025.12 –</span></div>
+      <h3>의료 도메인용 안전장치: Hallucination Guard와 Agentic RAG</h3>
+      <p class="hook">답변에 나온 약품명을 검색 결과와 대조해 걸러내고, 임신 금기처럼 치명적인 정보는 LLM이 아닌 결정적 규칙으로 표시합니다.</p>
+      <div class="metric"><span class="big">7종 도구 · 최대 6턴</span><span class="cap">Function Calling 기반 Agentic RAG</span></div>
+      <details><summary>자세히</summary><div class="body"><dl>
+        <dt>출발점</dt><dd>개인 프로젝트 <a href="https://github.com/D4MI3NCOD3S/DRUGINFO-CHATBOT" target="_blank" rel="noopener">DrugInfo Chatbot</a>에서 만든 구조가 사내 프로덕션으로 이어졌습니다.</dd>
+      </dl></div></details>
+    </article>
+
+    <article class="card" id="exp-vision" data-tags="ai">
+      <div class="tags"><a class="case-link" href="vision-pipeline.html">CASE 03 →</a><span class="tag">AI · Vision</span><span class="when">2026.03 –</span></div>
+      <h3>외부 API에 의존하던 알약 이미지 식별을 직접 구축</h3>
+      <p class="hook">Vision LLM 특징 추출에 규칙 기반 보정과 이미지 벡터 검색을 붙인 파이프라인을 단독으로 설계했습니다.</p>
+      <div class="metric"><span class="big">~7,000줄</span><span class="cap">단독 구현 · 10초 지연 예산 · Top-K 평가 하네스 CI 자동 실행</span></div>
+    </article>
+
+  </div>
+</section>
+
+<section class="wrap" id="timeline">
+  <div class="section-head"><h2>Timeline</h2><p>기획으로 입사해 6개월 만에 개발로 전향했습니다</p></div>
+  <ol class="growth" aria-label="성장 흐름"><li>Planning</li><li>Backend</li><li>Cloud</li><li>AI</li><li>Tech Lead</li></ol>
+  <div class="years">
+    <div class="year">
+      <div class="y">2023</div><div class="phase">Planning</div>
+      <div class="chips"><span>서비스 기획</span></div>
+      <ol><li><span class="d">2023.07</span>드럭인포팀 입사 (기획)</li><li><span class="d">2023.11</span>레거시 서비스 운영 인수</li></ol>
+    </div>
+    <div class="year">
+      <div class="y">2024</div><div class="phase">Backend · 레거시 운영 · Azure · Git</div>
+      <div class="chips"><span>.NET</span><span>SQL Server</span><span>Azure</span><span>Git</span></div>
+      <ol><li class="key"><span class="d">2024.01</span>개발 전향, 단독 운영 시작</li><li><span class="d">2024.03</span>Azure 이관 착수</li><li><span class="d">2024.07</span>TFS → Git 전환</li><li><span class="d">2024.11</span>이관 프로젝트 전체 인수</li></ol>
+    </div>
+    <div class="year">
+      <div class="y">2025</div><div class="phase">Cloud · RAG · LLM</div>
+      <div class="chips"><span>Azure SQL MI</span><span>Redis</span><span>RAG</span><span>Function Calling</span></div>
+      <ol><li class="key"><span class="d">2025.03</span>Azure 컷오버 1회차 성공</li><li><span class="d">2025.10</span>개인 프로젝트 DrugInfo Chatbot</li><li><span class="d">2025.12</span>생성형 AI 검색 착수</li></ol>
+    </div>
+    <div class="year">
+      <div class="y">2026</div><div class="phase">AI · Vision · Tech Lead · PM · 정식 오픈</div>
+      <div class="chips"><span>FastAPI</span><span>PostgreSQL</span><span>AWS</span><span>Vision</span><span>Claude Code</span></div>
+      <ol><li><span class="d">2026.02</span>전면 리뉴얼 PM 겸 개발리더</li><li><span class="d">2026.03</span>이미지 식별 파이프라인</li><li><span class="d">2026.07</span>AI 직무생산성 보고 · 영업 정산 자동화</li><li><span class="d">2026.08</span>DevOps → GitHub 미러링 · AI 코드 리뷰</li><li class="key"><span class="d">2026.09.14</span>리뉴얼 정식 오픈</li></ol>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="principles">
+  <div class="section-head"><h2>일하는 방식</h2><p>프로젝트에서 직접 배운 것들</p></div>
+  <div class="principles">
+    <div class="principle"><b>막힌 것에 정확한 이름을 붙인다</b><span>"개발 지연"으로 뭉뚱그리지 않고, 결정이 안 난 것과 못 만든 것을 나눈다.</span><a href="experience.html#exp-decisions" data-card>미결 의사결정 로그 →</a></div>
+    <div class="principle"><b>일정 협상은 대안으로 한다</b><span>"못 합니다"가 아니라 무엇을 포기하면 되고, 포기하면 무엇을 잃는지를 제시한다.</span><a href="experience.html#exp-release" data-card>릴리즈 2주 연기 →</a></div>
+    <div class="principle"><b>안 만들어도 되는 걸 찾는 것도 설계다</b><span>범위를 줄이는 판단이 코드를 빨리 짜는 것보다 효과가 컸다.</span><a href="experience.html#exp-census" data-card>레거시 전수 센서스 →</a></div>
+    <div class="principle"><b>품질은 측정해야 유지된다</b><span>느낌으로 판단하던 AI 답변을 골든셋과 CI 회귀평가로 옮긴 것이 가장 오래 남는 자산이다.</span><a href="ai-search-rag.html">CASE 02 · AI 품질 평가 →</a></div>
+    <div class="principle"><b>지표보다 원인</b><span>seq scan, 소스 가중치, 슬롯 독점, 워터마크 신뢰성처럼 병목의 구조를 규명하고 최소한만 바꾼다.</span><a href="experience.html#exp-perf" data-card>쿼리 최적화 11.7s → 0.46s →</a></div>
+    <div class="principle"><b>한 번에 바꾸는 것을 줄인다</b><span>되돌릴 수 있는 단위로 쪼갠다. 운영은 고치는 일이 아니라 다음에 덜 고쳐도 되게 만드는 일이다.</span><a href="experience.html#exp-azure" data-card>Azure 이관 →</a></div>
+    <div class="principle"><b>기술보다 "누구에게 무엇을"</b><span>약국이 매일 쓰는 건 검색 화면이 아니라 약봉투다. 무엇이 진짜 사용 지점인지는 운영이 알려준다.</span><a href="experience.html#exp-solo" data-card>3년 단독 운영 →</a></div>
+    <div class="principle"><b>속도와 통제는 같은 문서에</b><span>AI 확산 계획에는 리스크 통제안이 함께 있어야 승인되고, 사고가 안 난다.</span><a href="force-multiplier.html">Force Multiplier →</a></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    이원복 · <a href="mailto:hwfrzy@gmail.com">hwfrzy@gmail.com</a> · <a href="https://github.com/D4MI3NCOD3S" target="_blank" rel="noopener">GitHub</a> · <a href="index.html">Overview</a><br>
+    수치는 사내 저장소 · 티켓 기록 실측값이고, 비공개 항목은 면접에서 설명드릴 수 있습니다.
+  </div>
+</footer>
+
+<script src="assets/main.js"></script>
+</body>
+</html>

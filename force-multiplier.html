@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Force Multiplier — 이원복</title>
+<meta name="description" content="팀이 더 많이 해낼 수 있는 환경: 직원 AI 활용 가이드와 1:1 코칭, 업무 47개 AI 적용 조사, 영업 정산 자동화, 레거시 저장소 AI PR 리뷰.">
+<meta property="og:title" content="Force Multiplier — 이원복">
+<meta property="og:description" content="팀이 더 많이 해낼 수 있는 환경: 직원 AI 활용 가이드와 1:1 코칭, 업무 47개 AI 적용 조사, 영업 정산 자동화, 레거시 저장소 AI PR 리뷰.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232f5bd3'/><text x='16' y='22' font-size='16' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'>WB</text></svg>">
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html">이원복</a>
+    <div class="links">
+      <a class="back" href="index.html">← Overview</a>
+      <a href="legacy-modernization.html">레거시 전면 리뉴얼</a><a href="ai-search-rag.html">AI Search · RAG</a><a href="vision-pipeline.html">Vision Pipeline</a><a href="azure-migration.html">Azure Migration</a><a href="force-multiplier.html" aria-current="page">Force Multiplier</a>
+      <a href="experience.html">Experience</a>
+    </div>
+    <button class="theme-btn" id="themeBtn" aria-label="다크/라이트 모드 전환">◐</button>
+  </div>
+</nav>
+<main>
+<section class="wrap case detail" id="multiplier" aria-labelledby="fm">
+  <div class="case-head">
+    <span class="no">LEADERSHIP</span>
+    <h1 class="case-title" id="fm">Force Multiplier — 팀이 더 많이 해낼 수 있는 환경 만들기</h1>
+    <div class="case-meta"><span>혼자 많이 하는 것보다, 팀원 각자의 역량이 더 크게 나오게 하는 것이 리더의 일이라고 봤습니다.</span></div>
+  </div>
+  <nav class="subnav" aria-label="이 페이지"><a href="#flow">Flow</a><a href="#levers">네 가지 레버</a></nav>
+
+  <ol class="journey seven" id="flow" aria-label="흐름">
+    <li>AI 활용 가이드</li><li>1:1 코칭</li><li>업무 분석 · 조사</li><li>반복 업무 자동화</li><li>AI PR 리뷰</li><li>테스트 참여 구조</li><li class="end">온보딩</li>
+  </ol>
+
+  <div class="levers" id="levers">
+    <div class="lever wide">
+      <p class="block-title">AI 활용 확산</p>
+      <h3>계정만 나눠주지 않고, 쓰는 법까지 옆에서</h3>
+      <div class="lever-cols">
+        <ul>
+          <li>비개발 직원용 <b>Claude Code 도입 가이드</b> 배포 — 설치 · 팀 계정 로그인부터, 폴더째 자료 분석 · 기획서 초안 · 지표 리포트 · 명단 정비 · 이상 데이터 추출 같은 <b>실무 예시</b>까지</li>
+          <li>Claude Design · ChatGPT Work · Claude Cowork 등은 직원 자리에서 <b>1:1로 직접 코칭</b></li>
+          <li>팀원이 자기 업무를 세분화하고 AI 적용안 · 예상 효과를 적는 <b>AI 적용 조사 템플릿</b> 설계 · 작성 가이드 제공</li>
+          <li>리뉴얼에서 검증한 방식을 <b>개발 · CS · 영업 · QA · 기획 · 컨텐츠</b> 6개 직무로 넓히는 로드맵 보고. 속도만큼 통제도 함께: 임상 안전 · 개인정보 국외이전 · 보안 · 과의존 · 비용 · 재현성 <b>6대 리스크 통제안</b></li>
+        </ul>
+        <div class="plan" role="table" aria-label="본인 업무 AI 적용 계획 (예상치)">
+          <div class="plan-h" role="row"><span>본인 업무 18개 중 일부</span><span>현재 → AI 적용 후</span><span>배수</span></div>
+          <div class="plan-r" role="row"><span>레거시 프로시저 → FastAPI 재작성</span><span>건당 4h → 1h</span><b>4×</b></div>
+          <div class="plan-r" role="row"><span>테이블 마이그레이션 · 검증 게이트</span><span>3h → 45m</span><b>4×</b></div>
+          <div class="plan-r" role="row"><span>인터페이스정의서 작성</span><span>3h → 40m</span><b>4.5×</b></div>
+          <div class="plan-r" role="row"><span>고시 데이터 월간 업데이트</span><span>월 4h → 1h</span><b>4×</b></div>
+          <div class="plan-r" role="row"><span>장애 로그 분석 · 원인 추정</span><span>3h → 1h</span><b>3×</b></div>
+          <div class="plan-r" role="row"><span>웹 · API 신규 기능 개발</span><span>6h → 2.5h</span><b>2.4×</b></div>
+          <p class="plan-note">팀 AI 적용 조사에 직접 작성한 <b>계획 · 예상치</b>입니다. 18개 업무 예상 배수 2.4 – 4.5×.</p>
+        </div>
+      </div>
+      <div class="lever-m"><b>47개</b><span class="src">팀원 4명이 세분화한 업무 · AI 적용 조사</span><b style="margin-left:10px">6개 직무</b><span class="src">확산 로드맵</span></div>
+    </div>
+    <div class="lever">
+      <p class="block-title">비개발 직군 업무 자동화</p>
+      <h3>영업 정산 수작업을 더블클릭 한 번으로</h3>
+      <ul>
+        <li>협력사별 병원 매출정산 <b>자동 계산 → 정산내역서 PDF → 메일 발송</b></li>
+        <li>1차/2차 정산율, 월납·연납·분기, 공동정산 분배 같은 규칙을 <b>골든 테스트</b>로 고정</li>
+        <li>사내망 밖 인터넷 없이 도는 단일 실행파일. 실데이터는 PC 밖으로 나가지 않음</li>
+        <li>경영진용 <b>일일 지표 Slack 리포트</b> — 대시보드와 같은 숫자를 매일 아침</li>
+      </ul>
+      <div class="lever-m"><b>16건</b><span class="src">정산 규칙 골든 테스트</span></div>
+    </div>
+    <div class="lever">
+      <p class="block-title">리뷰 · 형상관리 체계</p>
+      <h3>레거시 저장소에도 AI 코드 리뷰를</h3>
+      <ul>
+        <li>Azure DevOps → GitHub <b>통합 미러링 파이프라인</b> 구축. 이름이 아니라 <b>커밋 계보로 검증한 짝</b>만 미러링</li>
+        <li>force-push로 저장소를 덮어쓰지 않도록 워크플로 삭제 감지 중단 · dry-run · 저장소별 실패 격리</li>
+        <li>미러링된 레거시 저장소에 <b>Claude 자동 PR 리뷰</b> 적용</li>
+      </ul>
+      <div class="lever-m"><b>10쌍</b><span class="src">검증된 미러 매핑</span><b style="margin-left:10px">6개</b><span class="src">자동 리뷰 적용 저장소</span></div>
+    </div>
+    <div class="lever">
+      <p class="block-title">온보딩 · 참여 구조</p>
+      <h3>사람이 바뀌어도 일이 굴러가게</h3>
+      <ul>
+        <li>TFS → Git 전환 후 <b>Git 사용 가이드</b> 작성 · 팀 교육</li>
+        <li>외주 개발자 <b>온보딩 가이드</b> — 브랜치 보호, 권한 레벨, 작업 흐름</li>
+        <li>기획 · 마케팅 · 영업 · 외주 약사까지 테스트에 참여하는 구조 설계</li>
+      </ul>
+      <div class="lever-m"><a href="experience.html#exp-git">TFS → Git 전환 →</a><a href="experience.html#exp-testing" style="margin-left:14px">테스트 참여 구조 →</a></div>
+    </div>
+  </div>
+  <div class="related" id="related">
+    <p class="block-title">관련 경험</p>
+    <ul><li><a href="experience.html#exp-agent">AI 코딩 에이전트 + 검증 게이트</a></li><li><a href="experience.html#exp-testing">비개발 직군 테스트 참여 구조</a></li><li><a href="experience.html#exp-git">TFS → Git 전환 · Git 가이드</a></li></ul>
+  </div>
+</section>
+
+<div class="wrap pager"><a class="prev" href="azure-migration.html"><span>이전</span>CASE 04 · Azure Migration</a><a class="next" href="experience.html"><span>다음</span>전체 경험 19건</a></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    이원복 · <a href="mailto:hwfrzy@gmail.com">hwfrzy@gmail.com</a> · <a href="https://github.com/D4MI3NCOD3S" target="_blank" rel="noopener">GitHub</a> · <a href="index.html">Overview</a><br>
+    수치는 사내 저장소 · 티켓 기록 실측값이고, 비공개 항목은 면접에서 설명드릴 수 있습니다.
+  </div>
+</footer>
+
+<script src="assets/main.js"></script>
+</body>
+</html>
